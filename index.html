@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generation using Hugging Face API</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            max-width: 80%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generated Image:</h1>
+    
+    <script>
+        async function query(data) {
+            const response = await fetch(
+                "https://api-inference.huggingface.co/models/ZB-Tech/Text-to-Image",
+                {
+                    headers: {
+                        Authorization: "Bearer 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", // Your API token
+                        "Content-Type": "application/json",
+                    },
+                    method: "POST",
+                    body: JSON.stringify(data),
+                }
+            );
+
+            // Convert the response into a blob
+            const result = await response.blob();
+            const imageObjectURL = URL.createObjectURL(result);
+
+            // Create an img element to display the generated image
+            const img = document.createElement("img");
+            img.src = imageObjectURL;
+            document.body.appendChild(img); // Append the image to the body
+        }
+
+        // Call the query function with the prompt for image generation
+        query({ inputs: "Wide shot of a customer, ANNA, sitting at a desk with a laptop. Anna is visibly frustrated, pulling her hair out in exasperation.  She's in a messy home office" });
+    </script>
+</body>
+</html>
