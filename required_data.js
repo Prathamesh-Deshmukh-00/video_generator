@@ -64,5 +64,9 @@ console.log("ImageDurations :- ", ImageDurations);
 const captionDurations = calculateCaptionDurations(image_des);
 console.log("captionDurations :- ", captionDurations);
 
+// voice over script for making video 
+const voice_over_description = image_des.voice_over.description ;
+ console.log("voice over description for video is : - ", voice_over_description);
 
-export {ImageDurations,image_descriptions,captionDurations,caption_descriptions}
+
+export {ImageDurations,image_descriptions,captionDurations,caption_descriptions,voice_over_description}

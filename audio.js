@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import {voice_over_description} from "./required_data.js";
 
 const API_BASE_URL = "https://api.sws.speechify.com";
 const API_KEY = "Rz2tmCnZ_eNpsk034eelEvOdKC5F8Asr4JbRgPoQMVk=";
@@ -28,7 +29,7 @@ async function getAudio(text) {
 }
 
 async function main() {
-  const audio = await getAudio("Three best friends, Anna, Chloe, and Mia, are getting ready for a night out. They're trying on different outfits in a dressing room, and the scene quickly descends into chaos as they poke fun at each other's fashion choices. The laughter is contagious, and the girls are rolling with hysterics. It's clear that their friendship is built on a solid foundation of shared humor and mutual teasing.");
+  const audio = await getAudio(voice_over_description);
   await fs.writeFile("./audio/speech.mp3", audio);
 }
 

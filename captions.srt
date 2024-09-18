@@ -1,0 +1,24 @@
+1
+00:00:00,000 --> 00:00:03,000
+Child: I'm Super Kid! I can reach anything!
+
+2
+00:00:03,000 --> 00:00:06,000
+Child: (grunting) Almost...
+
+3
+00:00:06,000 --> 00:00:09,000
+Child: (whispering) Maybe I need a boost...
+
+4
+00:00:09,000 --> 00:00:12,000
+Child: (triumphantly) Yes! I got it!
+
+5
+00:00:12,000 --> 00:00:15,000
+Child: (disappointed) Oh no...
+
+6
+00:00:15,000 --> 00:00:18,000
+Child: (laughing) Oops! Silly me!
+

@@ -8,7 +8,7 @@ const image_des  = await (async () => {
   const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   // Set the sample prompt (replace this with any dynamic user prompt)
-  const sample_prompt = "boys dancing in ganesh festivel";
+  const sample_prompt = "small kid";
 
   // Generalized prompt for generating a video script with descriptions and voice-over
   const prompt = `Generate a comedy video script based on the following criteria for the scenario: "${sample_prompt}":

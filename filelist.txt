@@ -10,3 +10,9 @@ file 'C:/my_code/my personal projects/video_generator/images/img_4.png'
 duration 5
 file 'C:/my_code/my personal projects/video_generator/images/img_5.png'
 duration 10
+file 'C:/my_code/my personal projects/video_generator/images/img_6.png'
+duration 3
+file 'C:/my_code/my personal projects/video_generator/images/img_7.png'
+duration 3
+file 'C:/my_code/my personal projects/video_generator/images/img_8.png'
+duration 3
