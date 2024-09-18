@@ -107,5 +107,6 @@ The response should be formatted like this:
   }
 })();
 
+const video_desc = await image_des ; 
 
-export {image_des};
+export {video_desc};

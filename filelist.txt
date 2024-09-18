@@ -1,18 +1,22 @@
 file 'C:/my_code/my personal projects/video_generator/images/img_0.png'
 duration 5
 file 'C:/my_code/my personal projects/video_generator/images/img_1.png'
-duration 7
+duration 5
+file 'C:/my_code/my personal projects/video_generator/images/img_10.png'
+duration 5
 file 'C:/my_code/my personal projects/video_generator/images/img_2.png'
 duration 5
 file 'C:/my_code/my personal projects/video_generator/images/img_3.png'
 duration 5
 file 'C:/my_code/my personal projects/video_generator/images/img_4.png'
-duration 5
+duration 3
 file 'C:/my_code/my personal projects/video_generator/images/img_5.png'
-duration 10
+duration 3
 file 'C:/my_code/my personal projects/video_generator/images/img_6.png'
 duration 3
 file 'C:/my_code/my personal projects/video_generator/images/img_7.png'
 duration 3
 file 'C:/my_code/my personal projects/video_generator/images/img_8.png'
+duration 3
+file 'C:/my_code/my personal projects/video_generator/images/img_9.png'
 duration 3

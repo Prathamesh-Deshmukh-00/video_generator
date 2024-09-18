@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url';
 import { readdirSync, writeFileSync, existsSync, unlinkSync, readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import ffmpeg from 'fluent-ffmpeg';
+import {ImageDurations} from "./required_data.js";
 
 // Define __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -21,10 +22,7 @@ if (images.length === 0) {
 console.log('Images found:', images);
 
 // Custom display durations for each image
-const ImageDurations = [
-  5, 7, 5,
-  5, 5, 10
-]; // Example durations for each image
+// const ImageDurations = ImageDurations; // Example durations for each image
 
 // Ensure there are as many durations as images, or use a default duration for remaining images
 const defaultDuration = 3;

@@ -1,12 +1,12 @@
-import {image_des} from  "./sample.js";
+import {video_desc} from  "./sample.js";
 
 
-console.log("Generated proper json response:",image_des);
+console.log("Generated proper json response:",video_desc);
 
-const  image_descriptions = image_des.image.map((object) => object.description);
+const  image_descriptions = video_desc.image.map((object) => object.description);
 console.log("images description :- " ,image_descriptions);
 
-const  caption_descriptions = image_des.caption.map((object) => object.description);
+const  caption_descriptions = video_desc.caption.map((object) => object.description);
 console.log("captions description :- " ,caption_descriptions);
 
 
@@ -56,16 +56,16 @@ function calculateCaptionDurations(response) {
 }
 
 //call function those return timing for each image in video
-const ImageDurations = calculateImageDurations(image_des);
+const ImageDurations = calculateImageDurations(video_desc);
 console.log("ImageDurations :- ", ImageDurations);
 
 
 //call function those return timing for each caption in video
-const captionDurations = calculateCaptionDurations(image_des);
+const captionDurations = calculateCaptionDurations(video_desc);
 console.log("captionDurations :- ", captionDurations);
 
 // voice over script for making video 
-const voice_over_description = image_des.voice_over.description ;
+const voice_over_description = video_desc.voice_over.description ;
  console.log("voice over description for video is : - ", voice_over_description);
 
 

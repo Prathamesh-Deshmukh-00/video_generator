@@ -1,3 +1,5 @@
+
+import {image_descriptions} from "./required_data.js";
 // Function to query Hugging Face API and generate an image
 async function query(data) {
     try {
@@ -48,22 +50,10 @@ async function generateImages(prompts) {
 }
 
 // Prompts for generating different images
-const prompts =  
-    [
-        "Wide shot of a messy apartment. Balloons are deflated and strewn across the floor. A half-eaten cake sits on a table, surrounded by empty wine glasses. Two women, clearly hungover, are slumped on the couch in pajamas. One is trying to brush her hair, but it's a tangled mess.",
-        'Close-up on the woman brushing her hair. Her eyes are bloodshot, and she looks exhausted. She sighs dramatically and throws the brush down.',
-        'Medium shot of the two women on the couch. One is holding a glass of water, the other is holding a bottle of aspirin. They both look miserable.',
-        'Close-up on the woman holding the aspirin. She pops one into her mouth and grimaces.',
-        "Medium shot of the two women. One is making a dramatic 'death' gesture with her hands, the other is laughing.",
-        "Close-up on the laughing woman. She's holding her stomach and tears are streaming down her face.",
-        "Wide shot of the two women, now standing. They are both wearing sunglasses and holding cocktails. They are doing a 'model walk' around the apartment, looking glamorous and confident.",
-        'Close-up on the woman holding a cocktail. She takes a sip and winks at the camera.',
-        "Medium shot of the two women, now dressed in fancy outfits, standing in front of a mirror. They're adjusting their hair and makeup, giggling and posing.",
-        "Close-up on the mirror, showing the two women's reflection. The image blurs and distorts, then suddenly cuts to a shot of them back on the couch, looking miserable, with the half-eaten cake in front of them. The camera zooms in on the cake, which is now covered in crumbs and lipstick.",
-        'Wide shot of the apartment, now completely trashed. Balloons are deflated and strewn everywhere. Wine glasses are overturned, and the cake is now smeared across the table.'
-      ];
+// const prompts =  
+// image_descriptions;
 
 
 
 // Call the function to generate multiple images
-generateImages(prompts);
+generateImages(image_descriptions);

@@ -1,0 +1,1 @@
+https://huggingface.co/stabilityai/stable-audio-open-1.0

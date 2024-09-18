@@ -1,5 +1,6 @@
 import fs from 'fs';
 import ffmpeg from 'fluent-ffmpeg';
+import {captionDurations, caption_descriptions} from "./required_data.js";
 
 // Function to generate SRT content from captions and durations
 function generateSRT(captions, durations) {
@@ -27,19 +28,12 @@ function generateSRT(captions, durations) {
 }
 
 // Input data
-const captions = [
-    "Child: I'm Super Kid! I can reach anything!",
-    'Child: (grunting) Almost...',
-    'Child: (whispering) Maybe I need a boost...',
-    'Child: (triumphantly) Yes! I got it!',
-    'Child: (disappointed) Oh no...',
-    'Child: (laughing) Oops! Silly me!'
-];
+// const captions = caption_descriptions;
 
-const captionDurations = [3, 3, 3, 3, 3, 3];
+// const captionDurations = captionDurations;
 
 // Generate SRT content
-const srtContent = generateSRT(captions, captionDurations);
+const srtContent = generateSRT(caption_descriptions, captionDurations);
 
 // Write to file
 fs.writeFile('./captions.srt', srtContent, (err) => {

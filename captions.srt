@@ -1,24 +1,20 @@
 1
-00:00:00,000 --> 00:00:03,000
-Child: I'm Super Kid! I can reach anything!
+00:00:00,000 --> 00:00:02,000
+Lily: This is going to be the tallest tower ever!
 
 2
-00:00:03,000 --> 00:00:06,000
-Child: (grunting) Almost...
+00:00:02,000 --> 00:00:04,000
+Lily: (Grunting) This one's heavy!
 
 3
-00:00:06,000 --> 00:00:09,000
-Child: (whispering) Maybe I need a boost...
+00:00:04,000 --> 00:00:06,000
+Lily: (Gasping) Oh no!
 
 4
-00:00:09,000 --> 00:00:12,000
-Child: (triumphantly) Yes! I got it!
+00:00:06,000 --> 00:00:08,000
+Lily: (Sniffling) I worked so hard...
 
 5
-00:00:12,000 --> 00:00:15,000
-Child: (disappointed) Oh no...
-
-6
-00:00:15,000 --> 00:00:18,000
-Child: (laughing) Oops! Silly me!
+00:00:08,000 --> 00:00:10,000
+Lily: (Grinning) But I'm not giving up!
 
