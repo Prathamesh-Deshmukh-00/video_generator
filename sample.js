@@ -3,12 +3,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 // Replace with your actual API key
 const genAI = new GoogleGenerativeAI("AIzaSyD95-QXYZkz0iFIhcBtoDGDcjxVf5wb6ts");
 
-const descriptions = await (async () => {
+const image_des  = await (async () => {
   // Load the generative model
   const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   // Set the sample prompt (replace this with any dynamic user prompt)
-  const sample_prompt = "butiful womens making party";
+  const sample_prompt = "boys dancing in ganesh festivel";
 
   // Generalized prompt for generating a video script with descriptions and voice-over
   const prompt = `Generate a comedy video script based on the following criteria for the scenario: "${sample_prompt}":
@@ -69,13 +69,8 @@ The response should be formatted like this:
 // let responseJson = JSON.parse(responseText); // Parse the text into JSON
       const response = result.response.text() ; 
     // Log the result
-    console.log(response);
     const image_des = JSON.parse(response.slice(7, -3));
-     console.log("Generat ed proper json response:",image_des);
-    const descriptions = image_des.image.map((object) => object.description);
-
-    console.log(descriptions);
-   return descriptions;
+   return image_des ;
     
 // async function query(data) {
 //   const response = await fetch(
@@ -112,6 +107,5 @@ The response should be formatted like this:
   }
 })();
 
-console.log(descriptions);
 
-export {descriptions}
+export {image_des};

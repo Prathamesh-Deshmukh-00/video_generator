@@ -1,0 +1,12 @@
+file 'C:/my_code/my personal projects/video_generator/images/img_0.png'
+duration 5
+file 'C:/my_code/my personal projects/video_generator/images/img_1.png'
+duration 7
+file 'C:/my_code/my personal projects/video_generator/images/img_2.png'
+duration 5
+file 'C:/my_code/my personal projects/video_generator/images/img_3.png'
+duration 5
+file 'C:/my_code/my personal projects/video_generator/images/img_4.png'
+duration 5
+file 'C:/my_code/my personal projects/video_generator/images/img_5.png'
+duration 10

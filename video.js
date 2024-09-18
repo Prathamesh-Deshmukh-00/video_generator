@@ -1,9 +1,7 @@
-import { fileURLToPath } from 'url';
-import { readdirSync, unlinkSync } from 'fs';
+import { fileURLToPath } from 'url'; 
+import { readdirSync, writeFileSync, existsSync, unlinkSync, readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import ffmpeg from 'fluent-ffmpeg';
-import ffmpegStatic from 'ffmpeg-static'; // Import ffmpeg-static
-import sharp from 'sharp'; // Import sharp
 
 // Define __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -12,58 +10,67 @@ const __dirname = dirname(__filename);
 // Directory containing the images
 const imagesDir = join(__dirname, 'images');
 
-// Function to check if an image is valid
-const isValidImage = async (filePath) => {
-  try {
-    await sharp(filePath).metadata(); // Try to get metadata to check if image is valid
-    return true;
-  } catch (err) {
-    console.error(`Invalid image: ${filePath}`);
-    return false;
-  }
-};
+// Read the directory and filter out image files
+const images = readdirSync(imagesDir).filter(file => file.endsWith('.png') || file.endsWith('.jpg'));
 
-// Read the directory and filter out invalid images
-const filterValidImages = async () => {
-  const files = readdirSync(imagesDir).filter(file => file.endsWith('.png') || file.endsWith('.jpg'));
-  const validImages = [];
+if (images.length === 0) {
+  console.error('No images found in the images folder.');
+  process.exit(1);
+}
 
-  for (const file of files) {
-    const filePath = join(imagesDir, file);
-    if (await isValidImage(filePath)) {
-      validImages.push(file);
-    } else {
-      unlinkSync(filePath); // Optionally delete invalid images
-    }
-  }
+console.log('Images found:', images);
 
-  return validImages;
-};
+// Custom display durations for each image
+const ImageDurations = [
+  5, 7, 5,
+  5, 5, 10
+]; // Example durations for each image
 
-// Set the ffmpeg path to the static binary
-ffmpeg.setFfmpegPath(ffmpegStatic);
+// Ensure there are as many durations as images, or use a default duration for remaining images
+const defaultDuration = 3;
+const durations = images.map((_, index) => ImageDurations[index] || defaultDuration);
 
-// Create video from valid images using fluent-ffmpeg
+// Set paths to ffmpeg and ffprobe
+const ffmpegPath = 'C:/Users/91766/Downloads/ffmpeg-7.0.2-essentials_build/ffmpeg-7.0.2-essentials_build/bin/ffmpeg.exe';
+const ffprobePath = 'C:/Users/91766/Downloads/ffmpeg-7.0.2-essentials_build/ffmpeg-7.0.2-essentials_build/bin/ffprobe.exe';
+
+// Define the path for filelist.txt
+const fileListPath = join(__dirname, 'filelist.txt');
+
+// Check if filelist.txt exists, if so, delete it
+if (existsSync(fileListPath)) {
+  console.log('filelist.txt already exists. Deleting it.');
+  unlinkSync(fileListPath);
+}
+
+// Create a new filelist.txt with custom durations for each image
+const fileListContent = images.map((img, index) => 
+  `file '${join(imagesDir, img).replace(/\\/g, '/')}'\nduration ${durations[index]}`
+).join('\n') + '\n';
+writeFileSync(fileListPath, fileListContent);
+
+// Log the file list path for debugging
+console.log('New filelist.txt created at:', fileListPath);
+
+// Debug: Print filelist.txt content
+console.log('filelist.txt content:', readFileSync(fileListPath, 'utf8'));
+
+// Create video from images using fluent-ffmpeg
 const createVideoFromImages = async () => {
   const videoOutput = join(__dirname, 'output.mp4');
-  const validImages = await filterValidImages();
 
-  console.log('Valid images found:', validImages);
+  const ffmpegCommand = ffmpeg()
+    .setFfmpegPath(ffmpegPath)
+    .setFfprobePath(ffprobePath);
 
-  const ffmpegCommand = ffmpeg();
-
-  // Add each valid image to ffmpeg command
-  validImages.forEach((image) => {
-    const inputPath = join(imagesDir, image);
-    ffmpegCommand.input(inputPath);
-  });
-
-  // Set output options to display each image for 3 seconds
-  ffmpegCommand
+  // Use the file list for input with proper inputOptions handling
+  ffmpegCommand.input(fileListPath)
+    .inputFormat('concat')  // Specify input format
+    .inputOptions(['-safe', '0', '-f', 'concat'])  // Allow the use of absolute paths
     .outputOptions([
-      '-vf fps=1/3',     // Set 1 frame every 3 seconds (each image will last 3 seconds)
-      '-c:v libx264',    // Use H.264 codec
-      '-pix_fmt yuv420p' // Pixel format for compatibility
+      '-c:v libx264',
+      '-r 30',  // Frame rate
+      '-pix_fmt yuv420p'  // Pixel format for wide compatibility
     ])
     .on('end', () => {
       console.log('Video created successfully:', videoOutput);
@@ -74,5 +81,5 @@ const createVideoFromImages = async () => {
     .save(videoOutput);
 };
 
-// Call the function to create video from images
+// Call the function to create the video
 createVideoFromImages();
