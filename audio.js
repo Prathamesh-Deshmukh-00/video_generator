@@ -29,7 +29,7 @@ async function getAudio(text) {
 }
 
 async function main() {
-  const audio = await getAudio(voice_over_description);
+  const audio = await getAudio(await voice_over_description);
   await fs.writeFile("./audio/speech.mp3", audio);
 }
 

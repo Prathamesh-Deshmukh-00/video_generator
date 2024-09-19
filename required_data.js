@@ -1,5 +1,38 @@
-import {video_desc} from  "./sample.js";
+// import image_des from  "./sample.js";
+import fs from 'fs/promises';  // For checking if file exists
+// import {importAndSaveData,getTempData,clearTempData} from "./tempdata.js";
+import {response} from "./response.js";
 
+
+// // Function to check if the video file exists
+// async function checkVideoFile() {
+//   try {
+//     await fs.access('./video/final_output_with_music.mp4');
+//     return true;
+//   } catch (error) {
+//     return false;
+//   }
+// }
+
+// // Function to delete the temporary data if the video file is generated
+// async function deleteTempDataIfVideoExists() {
+//   const fileExists = await checkVideoFile();
+//   if (fileExists) {
+//     clearTempData();
+//     console.log('Video file exists, temporary data cleared.');
+//   }
+// }
+
+// //calling function to delete tempory stored data 
+// deleteTempDataIfVideoExists();
+
+// //add data in tempory varable if not any data present in variable
+// if (getTempData() == null){
+// importAndSaveData(await image_des);
+// }
+
+
+const video_desc =  response; 
 
 console.log("Generated proper json response:",video_desc);
 
@@ -68,5 +101,9 @@ console.log("captionDurations :- ", captionDurations);
 const voice_over_description = video_desc.voice_over.description ;
  console.log("voice over description for video is : - ", voice_over_description);
 
+// baground music description script for making video 
+const baground_music_description = video_desc.background_music.description ;
+ console.log("baground music description for video is : - ", baground_music_description);
 
-export {ImageDurations,image_descriptions,captionDurations,caption_descriptions,voice_over_description}
+
+export {ImageDurations,image_descriptions,captionDurations,caption_descriptions,voice_over_description,baground_music_description} 

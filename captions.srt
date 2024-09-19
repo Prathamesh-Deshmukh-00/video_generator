@@ -1,20 +1,24 @@
 1
-00:00:00,000 --> 00:00:02,000
-Lily: This is going to be the tallest tower ever!
+00:00:00,000 --> 00:00:03,000
+The party is in full swing, and the laughter is contagious!
 
 2
-00:00:02,000 --> 00:00:04,000
-Lily: (Grunting) This one's heavy!
+00:00:03,000 --> 00:00:05,000
+Friends: "Hey, I'm winning!"
 
 3
-00:00:04,000 --> 00:00:06,000
-Lily: (Gasping) Oh no!
+00:00:05,000 --> 00:00:07,000
+Friend: "This is the best party ever!"
 
 4
-00:00:06,000 --> 00:00:08,000
-Lily: (Sniffling) I worked so hard...
+00:00:07,000 --> 00:00:09,000
+The party vibes are high!
 
 5
-00:00:08,000 --> 00:00:10,000
-Lily: (Grinning) But I'm not giving up!
+00:00:09,000 --> 00:00:11,000
+Happy birthday to you!
+
+6
+00:00:11,000 --> 00:00:13,000
+Friends: "We'll see you soon!"
 

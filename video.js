@@ -1,8 +1,8 @@
 import { fileURLToPath } from 'url'; 
-import { readdirSync, writeFileSync, existsSync, unlinkSync, readFileSync } from 'fs';
+import { readdirSync, writeFileSync, existsSync, unlinkSync, readFileSync, rmSync } from 'fs';
 import { join, dirname } from 'path';
 import ffmpeg from 'fluent-ffmpeg';
-import {ImageDurations} from "./required_data.js";
+import { ImageDurations } from './required_data.js';
 
 // Define __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
 const imagesDir = join(__dirname, 'images');
 
 // Read the directory and filter out image files
-const images = readdirSync(imagesDir).filter(file => file.endsWith('.png') || file.endsWith('.jpg'));
+const images = await readdirSync(imagesDir).filter(file => file.endsWith('.png') || file.endsWith('.jpg'));
 
 if (images.length === 0) {
   console.error('No images found in the images folder.');
@@ -72,6 +72,17 @@ const createVideoFromImages = async () => {
     ])
     .on('end', () => {
       console.log('Video created successfully:', videoOutput);
+
+      // After successful video creation, delete the images
+      images.forEach((img) => {
+        const imgPath = join(imagesDir, img);
+        if (existsSync(imgPath)) {
+          unlinkSync(imgPath);
+          console.log(`Deleted: ${imgPath}`);
+        }
+      });
+
+      console.log('All images deleted successfully.');
     })
     .on('error', (err) => {
       console.error('Error while creating video:', err);

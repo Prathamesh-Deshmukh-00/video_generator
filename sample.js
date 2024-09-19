@@ -1,17 +1,16 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { input_data } from "./input_data_from_user.js";
+import fs from 'fs';
 
 // Replace with your actual API key
 const genAI = new GoogleGenerativeAI("AIzaSyD95-QXYZkz0iFIhcBtoDGDcjxVf5wb6ts");
 
-const image_des  = await (async () => {
+const image_des = async (input_data) => {
   // Load the generative model
   const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  // Set the sample prompt (replace this with any dynamic user prompt)
-  const sample_prompt = "small kid";
-
   // Generalized prompt for generating a video script with descriptions and voice-over
-  const prompt = `Generate a comedy video script based on the following criteria for the scenario: "${sample_prompt}":
+  const prompt = `Generate a video script based on the following criteria for the scenario: "${input_data}":
 
 1. Generate a script based on the provided scenario with appropriate dialogue, actions, and interactions.
 
@@ -26,8 +25,7 @@ const image_des  = await (async () => {
 
 5. Suggest background music that fits the mood and flow of the video, with transitions that match key moments in the scene.
 
-6. only return json response object in response 
-
+6. Only return JSON response object in response.
 
 The response should be formatted like this:
 
@@ -59,54 +57,54 @@ The response should be formatted like this:
     "description": "Background music description, indicating transitions, mood, and intensity changes at key moments."
   }
 }
+
 `;
 
   try {
     // Generate the content from the model
     const result = await model.generateContent(prompt);
-       
-//     let responseText = result.response.text(); // Get the text response
-// let responseJson = JSON.parse(responseText); // Parse the text into JSON
-      const response = result.response.text() ; 
-    // Log the result
-    const image_des = JSON.parse(response.slice(7, -3));
-   return image_des ;
-    
-// async function query(data) {
-//   const response = await fetch(
-//       "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell",
-//       {
-//           headers: {
-//               Authorization: "Bearer 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", // Your API token
-//               "Content-Type": "application/json",
-//           },
-//           method: "POST",
-//           body: JSON.stringify(data),
-//       }
-//   );
-//   const result = await response.blob();
-//   return URL.createObjectURL(result); // Return the object URL for the image
-// }
+    const response = result.response.text();
+    const image_des = JSON.parse(response.slice(7, -3)); // Remove leading/trailing unnecessary characters
 
+    // Check if the response.js file exists
+    if (!fs.existsSync('response.js')) {
+      // Save the response to a .js file if it doesn't exist
+      const jsContent = `const response = ${JSON.stringify(image_des, null, 2)};
+export { response };`;
+      fs.writeFileSync('response.js', jsContent, 'utf-8');
+      console.log('First response saved to response.js');
+    } else {
+      // File exists, so keep the first response and do not overwrite it
+      console.log('response.js already exists. Keeping the first response.');
+    }
 
-
-//  // Create an array of promises for each prompt
-//  const promises = descriptions.map(prompt => query({ inputs: prompt }));
-
-//  // Wait for all the images to be generated
-//  const imageUrls = await Promise.all(promises);
-
-//  console.log("This is images url link :- ",imageUrls);
-
-
-
-    // console.log("Generated response:", responseJson);
+    // return image_des;
   } catch (error) {
     // Handle errors
     console.error('Error generating content:', error);
   }
-})();
+};
 
-const video_desc = await image_des ; 
 
-export {video_desc};
+   image_des(input_data);
+
+
+// // Logic for video generation
+// const checkVideoFile = async () => {
+//   const videoPath = './video/final_output_with_music.mp4';
+//   const videoExists = fs.existsSync(videoPath);
+
+//   // Check if the video has been generated
+//   if (videoExists) {
+//     // Delete the response.js file
+//     fs.unlinkSync('response.js');
+//     console.log('Video generated. response.js file deleted.');
+//   } else {
+//     console.log('Video not yet generated. response.js file retained.');
+//   }
+// };
+
+// // Periodically check if the video file exists (every 5 seconds)
+// setInterval(checkVideoFile, 5000);
+
+// export default data;

@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';  // Make sure you have node-fetch installed
 import fs from 'fs';             // Native Node.js module for file operations
+import {baground_music_description} from "./required_data.js";
 
 async function query(data) {
     const response = await fetch(
@@ -18,7 +19,7 @@ async function query(data) {
 }
 
 // Query the model with your input and save the audio as "music.mp4"
-query({ "inputs": "Upbeat, whimsical music with a playful tempo starts at the beginning.  The tempo increases slightly when Max stirs the bowl and when the goo erupts.  The music becomes more dramatic and suspenseful as Max disappears and reappears, ending on a playful, optimistic note as he marches towards the camera. " }).then(async (audioBlob) => {
+query({ "inputs":await baground_music_description }).then(async (audioBlob) => {
     const buffer = await audioBlob.arrayBuffer();  // Convert Blob to ArrayBuffer
     const audioBuffer = Buffer.from(buffer);       // Convert ArrayBuffer to Buffer
 

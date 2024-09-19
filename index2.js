@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import fetch from 'node-fetch'; // Use node-fetch for ES modules
-import {image_descriptions} from "./required_data.js"
+import sharp from 'sharp'; // For image validation
+import { image_descriptions } from "./required_data.js";
 
 async function query(data) {
     const response = await fetch(
@@ -18,6 +19,17 @@ async function query(data) {
     return result; // Return the Blob object itself
 }
 
+// Function to validate image using sharp
+async function validateImage(filePath) {
+    try {
+        await sharp(filePath).metadata(); // This will throw an error if the image is not valid
+        return true;
+    } catch (error) {
+        console.error(`Invalid image ${filePath}:`, error.message);
+        return false;
+    }
+}
+
 // Function to generate multiple images and save them in a folder
 async function generateImages(prompts) {
     // Create an array of promises for each prompt
@@ -33,28 +45,40 @@ async function generateImages(prompts) {
         console.error('Error creating directory:', error.message);
     }
 
-    // Save each image Blob to the local file system
+    // Save each image Blob to the local file system and validate them
     for (let i = 0; i < blobs.length; i++) {
         const blob = blobs[i];
 
         // Convert Blob to ArrayBuffer to save to disk
         const buffer = Buffer.from(await blob.arrayBuffer());
 
+        const filePath = `./images/img_${i}.png`;
+
         // Write the buffer to a file (save images with appropriate names)
         try {
-            await fs.writeFile(`./images/img_${i}.png`, buffer);
+            await fs.writeFile(filePath, buffer);
             console.log(`Image img_${i}.png saved.`);
+
+            // Validate the image
+            const isValid = await validateImage(filePath);
+            if (!isValid) {
+                console.log(`Deleting invalid image img_${i}.png and regenerating...`);
+                await fs.unlink(filePath); // Delete the invalid image
+
+                // Regenerate the image
+                const newBlob = await query({ inputs: prompts[i] });
+                const newBuffer = Buffer.from(await newBlob.arrayBuffer());
+                await fs.writeFile(filePath, newBuffer); // Save the regenerated image
+                console.log(`Regenerated and saved img_${i}.png.`);
+            }
         } catch (error) {
-            console.error(`Error saving image img_${i}.png:`, error.message);
+            console.error(`Error saving or validating image img_${i}.png:`, error.message);
         }
     }
 }
 
-// Prompts for generating different images
-// const prompts = image_descriptions;
-
-// The array now contains 50 descriptions, and you can continue adding more positive, creative, and respectful scenarios.
-
-
-// Call the function to generate multiple images
+// Call the function to generate and validate multiple images
 generateImages(image_descriptions);
+
+
+// export {generateImages}

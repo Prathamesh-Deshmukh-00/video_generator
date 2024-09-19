@@ -1,6 +1,24 @@
 import fs from 'fs';
+import { promisify } from 'util';
 import ffmpeg from 'fluent-ffmpeg';
-import {captionDurations, caption_descriptions} from "./required_data.js";
+import { captionDurations, caption_descriptions } from './required_data.js';
+
+const waitForFile = async (filePath, timeout = 600000, interval = 500) => {
+    const fileExists = promisify(fs.access);
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        try {
+            await fileExists(filePath, fs.constants.F_OK);
+            return true; // File exists
+        } catch (err) {
+            console.log('Waiting for file:', filePath);
+            await new Promise((resolve) => setTimeout(resolve, interval));
+        }
+    }
+
+    throw new Error(`File not found within timeout: ${filePath}`);
+};
 
 // Function to generate SRT content from captions and durations
 function generateSRT(captions, durations) {
@@ -27,30 +45,48 @@ function generateSRT(captions, durations) {
     return srtContent;
 }
 
-// Input data
-// const captions = caption_descriptions;
+(async () => {
+    // Wait for the output.mp4 file (with a longer timeout of 10 minutes)
+    try {
+        await waitForFile('./output.mp4', 600000); // 600,000ms = 10 minutes
 
-// const captionDurations = captionDurations;
+        // Generate SRT content
+        const srtContent = generateSRT(await caption_descriptions, await captionDurations);
 
-// Generate SRT content
-const srtContent = generateSRT(caption_descriptions, captionDurations);
+        // Write SRT file
+        fs.writeFile('./captions.srt', srtContent, (err) => {
+            if (err) {
+                console.error('Error writing SRT file:', err);
+            } else {
+                console.log('captions.srt file has been saved!');
 
-// Write to file
-fs.writeFile('./captions.srt', srtContent, (err) => {
-    if (err) {
-        console.error('Error writing SRT file:', err);
-    } else {
-        console.log('captions.srt file has been saved!');
-
-        // Add captions to video
-        ffmpeg('./output.mp4')
-            .outputOptions('-vf', 'subtitles=captions.srt')
-            .save('./output_with_captions.mp4')
-            .on('end', () => {
-                console.log('Captioned video has been created!');
-            })
-            .on('error', (err) => {
-                console.error('Error creating captioned video:', err);
-            });
+                // Add captions to video
+                ffmpeg('./output.mp4')
+                    .outputOptions('-vf', 'subtitles=captions.srt')
+                    .save('./output_with_captions.mp4')
+                    .on('end', () => {
+                        console.log('Captioned video has been created!');
+                        
+                        // Delete the original output.mp4 file
+                        fs.unlink('./output.mp4', (unlinkErr) => {
+                            if (unlinkErr) {
+                                console.error('Error deleting original video file:', unlinkErr);
+                            } else {
+                                console.log('Original video file deleted.');
+                            }
+                        });
+                    })
+                    .on('error', (err) => {
+                        console.error('Error creating captioned video:', err);
+                    });
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
     }
-});
+
+
+    console.log("captions duration in caption foulder is :- " , captionDurations);
+    console.log("captions description in caption foulder is :- " , caption_descriptions);
+    
+})();
